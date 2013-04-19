@@ -1,4 +1,4 @@
-package com.amp.casual.simple_java_wunderground_api;
+package com.amp.casual.wunderground;
 
 /**
  * Hello world!
