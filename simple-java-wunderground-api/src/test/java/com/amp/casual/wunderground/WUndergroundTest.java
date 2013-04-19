@@ -34,21 +34,18 @@ public class WUndergroundTest
 			zip = prop.getProperty("zipCode");
 		}
 		weather = new SimpleWeather(key, zip);
-		System.out.println("Setup called");
 	}
 	
 	@Test
     public void testCurrentWeather()
     {
     	String currentWeather = weather.getWeatherData().getCurrentObservation().getWeather();
-    	System.out.println(currentWeather);
         assertEquals(!currentWeather.isEmpty(), true);
     }
     
 	@Test
     public void testCurrentTemperature(){
     	double currentTempF = weather.getWeatherData().getCurrentObservation().getTempF();
-    	System.out.println(currentTempF);
     	assertTrue(currentTempF != 0.0);
     }
 }

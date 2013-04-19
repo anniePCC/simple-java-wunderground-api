@@ -11,12 +11,16 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.amp.casual.wunderground.datatypes.CurrentObservation;
 import com.amp.casual.wunderground.datatypes.WUndergroundData;
 import com.google.gson.Gson;
 
 public class SimpleWeather {
 	private static final Gson gson = new Gson();
+	private static final Logger logger = LoggerFactory.getLogger(SimpleWeather.class);
 	
 	private final String API_END_POINT = "http://api.wunderground.com/api/";
 	private WUndergroundData wUndergroundData; 
@@ -27,11 +31,13 @@ public class SimpleWeather {
 				apiKey +
 				"/conditions/q/" +
 				location +	".json";
-		System.out.println(fullQuery);
+		
+		logger.info("Retrieving weather from: " + fullQuery);
 		InputStream source = retrieveStream(fullQuery);
 		Reader reader = new InputStreamReader(source);
 		WUndergroundData weatherData = gson.fromJson(reader, WUndergroundData.class);
-		System.out.println("Got weather for " + location + " : " + weatherData.getCurrentObservation().getWeather());
+		CurrentObservation obs = weatherData.getCurrentObservation();
+		logger.info("Got weather for " + location + ": " + obs.getTempF() + " and " + obs.getWeather());
 		this.wUndergroundData = weatherData;
 	}
 	
